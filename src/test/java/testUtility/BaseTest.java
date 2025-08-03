@@ -8,6 +8,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pageObjects.loginPage.LoginPageMethods;
 import io.qameta.allure.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -22,12 +23,17 @@ public class BaseTest extends TestUtils {
     public static void setup() {
         Configuration.browser = "chrome";
         Configuration.timeout = 10000; // Set a default timeout for tests
+      Configuration.browserCapabilities = new ChromeOptions().addArguments(
+              "--no-sandbox",
+              "--disable-dev-shm-usage",
+              "--disable-gpu",
+              "--remote-allow-origins=*"
+      );
         Configuration.baseUrl = "https://www.demo.guru99.com/V4/"; // Set a default base URL for tests
-        Configuration.headless = false; // Run tests in headless mode if needed
+        Configuration.headless = true; // Run tests in headless mode if needed
         Configuration.webdriverLogsEnabled = true; // Enable WebDriver logs for debugging
 
-        // Common setup code for tests can go here
-    }
+        }
     @BeforeEach
     public  void openLoginPage() {
         SelenideLogger.addListener("AllureSelenide",
